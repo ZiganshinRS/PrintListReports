@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PrintListReports.Infrastructure;
 using PrintListReports.Models;
 using PrintListReports.Models.ViewModels;
 
@@ -10,15 +8,17 @@ namespace PrintListReports.Controllers
     public class ScriptController : Controller
     {
         private IReportRepository repository;
-        public ScriptController(IReportRepository repo)
+        private Script script;
+        public ScriptController(IReportRepository repo, Script scriptService)
         {
             repository = repo;
+            script = scriptService;
         }
         public ViewResult Index(string returnUrl)
         {
             return View(new ScriptIndexViewModel
             {
-                Script = GetScript(),
+                Script = script,
                 ReturnUrl = returnUrl
             });
         }
@@ -27,23 +27,10 @@ namespace PrintListReports.Controllers
             Report report = repository.Reports.FirstOrDefault(p => p.ReportID == reportId);
             if (report != null)
             {
-                Script script = GetScript();
-
                 // выводим данные в Excel
                 // script.GoExcel(report,....)
-                
-                SaveScript(script);
             }
             return RedirectToAction("Index", new { returnUrl });
-        }
-        private Script GetScript()
-        {
-            Script script = HttpContext.Session.GetJson<Script>("Script") ?? new Script();
-            return script;
-        }
-        private void SaveScript(Script script)
-        {
-            HttpContext.Session.SetJson("Script", script);
         }
     }
 }

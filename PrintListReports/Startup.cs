@@ -24,6 +24,8 @@ namespace PrintListReports
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration["Data:ListReports:ConnectionString"]));
             services.AddTransient<IReportRepository, EFReportRepository>();
+            services.AddScoped<Script>(sp => SessionScript.GetScript(sp));
+            services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddMemoryCache();
             services.AddSession();
