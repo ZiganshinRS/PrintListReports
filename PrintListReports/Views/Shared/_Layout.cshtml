@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <title>PrintListReports</title>
+</head>
+<body>
+    <div class="navbar navbar-expand-sm navbar-dark bg-primary" role="navigation">
+        <a class="navbar-brand" href="#">Список отчётов</a>
+    </div>
+    <div class="row m-1 p-1">
+        <div id="categories" class="col-3">
+            Зарезервированное место
+        </div>
+        <div class="col-9">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>
