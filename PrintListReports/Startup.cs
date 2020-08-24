@@ -24,11 +24,7 @@ namespace PrintListReports
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration["Data:ListReports:ConnectionString"]));
             services.AddTransient<IReportRepository, EFReportRepository>();
-            services.AddScoped<Script>(sp => SessionScript.GetScript(sp));
-            services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
             services.AddMvc(option => option.EnableEndpointRouting = false);
-            services.AddMemoryCache();
-            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +42,6 @@ namespace PrintListReports
                 RequestPath = "/node_modules",
                 EnableDirectoryBrowsing = false
             });
-            app.UseSession();
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "pagenation",
